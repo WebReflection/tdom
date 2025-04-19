@@ -35,7 +35,7 @@ def test_attribute_value_expression():
 
 @pytest.mark.xfail(raises=ValueError)
 def test_expressions_in_attribute_value():
-    """Simple Python expression inside an attribute value."""
+    """Unsupported syntax, instead use a nested f-string."""
     result = html(t'<div class="container{1}">Hello World</div>')
     assert str(result) == {"class": "container1"}
 
@@ -48,8 +48,14 @@ def test_child_nodes():
 
 def test_doctype():
     """Sometimes it is hard to get a DOCTYPE in to the resulting output."""
-    result = html(t"<!DOCTYPE html>\n<div>Hello World</div>")
-    assert str(result) == "<!DOCTYPE html>\n<div>Hello World</div>"
+    result = html(t"<!DOCTYPE html><div>Hello World</div>")
+    assert str(result) == "<!DOCTYPE html><div>Hello World</div>"
+
+
+def test_preserve_newlines():
+    """Don't strip out newlines"""
+    result = html(t"<!DOCTYPE html>\n<body>\n<div>Hello World</div>\n</body>")
+    assert str(result) == "<!DOCTYPE html>\n<body>\n<div>Hello World</div>\n</body>"
 
 
 def test_reducing_boolean():
