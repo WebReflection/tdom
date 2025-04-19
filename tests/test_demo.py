@@ -63,12 +63,26 @@ def test_svg():
     </svg>
     """
     )
-    assert str(result) == (
-        "<svg>\n"
-        '      <rect width="200" height="100" rx="20" ry="20" fill="blue" />\n'
-        "    </svg>"
+    assert (
+        str(result)
+        == '<svg><rect width="200" height="100" rx="20" ry="20" fill="blue" /></svg>'
     )
 
+
+def test_lists_within_layout():
+    """A template in a template."""
+
+    names = ["John", "Jane", "Jill"]
+    result = html(
+        t"""
+            <ul>
+                {[html(t"<li>{name}</li>") for name in names]}
+            </ul>
+        """
+    )
+    assert "<li>John</li>" in str(result)
+    assert "<li>Jane</li>" in str(result)
+    assert "<li>Jill</li>" in str(result)
 
 
 def test_component():
@@ -92,20 +106,3 @@ def test_component():
     )
 
     assert "<p>Hello Components!</p>" in str(result)
-
-
-def test_lists_within_layout():
-    """A template in a template."""
-
-    names = ["John", "Jane", "Jill"]
-    result = html(
-        t"""
-            <ul>
-                {[html(t"<li>{name}</li>") for name in names]}
-            </ul>
-        """
-    )
-
-    assert "<li>John</li>" in str(result)
-    assert "<li>Jane</li>" in str(result)
-    assert "<li>Jill</li>" in str(result)
