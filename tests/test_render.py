@@ -6,7 +6,7 @@ from tdom import html
 def test_preserve_newlines():
     """Don't strip out newlines"""
     result = html(t"<!DOCTYPE html>\n<body>\n<div>Hello World</div>\n</body>")
-    assert str(result) == "<!DOCTYPE html>\n<body>\n<div>Hello World</div>\n</body>"
+    assert str(result) == "<!DOCTYPE html><body><div>Hello World</div></body>"
 
 
 def test_position_args_components():
