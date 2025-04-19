@@ -24,3 +24,6 @@ dev = [
 
 [tool.uv.sources]
 black = { git = "https://github.com/davepeck/black", branch = "pep750-support" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "examples", "docs"]
