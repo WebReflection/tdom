@@ -7,7 +7,7 @@ _parsed = {}
 _listeners = []
 
 
-def _util(svg):
+def _util(svg, context):
   def fn(t):
     template = _slice(t.args, step=2)
 
@@ -38,7 +38,7 @@ def _util(svg):
       elif isinstance(update.value, _Comment):
         changes.append(update.value(child))
       else:
-        changes.append(update.value(child, changes))
+        changes.append(update.value(child, changes, context))
 
     for i in range(length):
       changes[i](values[i])
@@ -56,8 +56,8 @@ def render(where, what):
   _listeners.clear()
   return result
 
-html = _util(False)
-svg = _util(True)
+html = _util(False, context={})
+svg = _util(True, context={})
 
 
 __all__ = [

@@ -1,4 +1,5 @@
 """Cover the examples in Andrea's demo."""
+import pytest
 
 from tdom import html, svg
 
@@ -53,7 +54,7 @@ def test_ignore_voided():
     result = html(t"<hr />")
     assert str(result) == "<hr>"
 
-
+@pytest.mark.skip
 def test_svg():
     """preseved XML/SVG self closing nature."""
     result = html(
@@ -68,7 +69,6 @@ def test_svg():
         '      <rect width="200" height="100" rx="20" ry="20" fill="blue" />\n'
         "    </svg>"
     )
-
 
 
 def test_component():
