@@ -4,24 +4,6 @@ from .dom import COMMENT, ELEMENT, FRAGMENT
 from .dom import _appendChildren, _replaceWith, parse as domify
 
 
-try:
-  if [1,2,3][::2] != [1,3]:
-    raise Exception('🐍')
-
-  def _slice(iterable, start=None, end=None, step=None):
-    return iterable[start:end:step]
-except Exception as MicroPythonGotcha:
-  def _slice(iterable, start=None, end=None, step=1):
-    if start is None:
-      start = 0
-    if end is None:
-      end = len(iterable)
-    if step is None:
-      step = 1
-    result = [iterable[i] for i in range(start, end, step)]
-    return result if isinstance(iterable, list) else tuple(result)
-
-
 def _as_comment(node):
   return lambda value: _replaceWith(node, _as_node(value))
 
@@ -49,7 +31,8 @@ def _as_prop(node, name, listeners):
 
   def aria(value):
     for k, v in value.items():
-      props[k if k == 'role' else f'aria-{k.lower()}'] = v
+      lower = k.lower()
+      props[lower if lower == 'role' else f'aria-{lower}'] = v
 
   def attribute(value):
     props[name] = value
@@ -78,7 +61,7 @@ def _as_prop(node, name, listeners):
     return attribute
 
 
-def _set_updates(node, listeners, updates, path):
+def _set_updates(node, updates, path):
   type = node['type']
   if type == ELEMENT:
     if node['name'] == _prefix:
@@ -97,7 +80,7 @@ def _set_updates(node, listeners, updates, path):
   if type == ELEMENT or type == FRAGMENT:
     i = 0
     for child in node['children']:
-      _set_updates(child, listeners, updates, path + [i])
+      _set_updates(child, updates, path + [i])
       i += 1
 
   elif type == COMMENT and node['data'] == _prefix:
@@ -130,7 +113,7 @@ class _Update:
 
 
 
-def _parse(listeners, template, length, svg):
+def _parse(template, length, svg):
   updates = []
   content = _instrument(template, svg)
   fragment = domify(content, svg)
@@ -140,7 +123,7 @@ def _parse(listeners, template, length, svg):
     if node['type'] != ELEMENT or node['name'] != _prefix:
       fragment = node
 
-  _set_updates(fragment, listeners, updates, [])
+  _set_updates(fragment, updates, [])
 
   if len(updates) != length:
     raise ValueError(f'{len(updates)} updates found, expected {length}')

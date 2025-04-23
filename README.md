@@ -92,11 +92,9 @@ Thanks to `t` strings, attributes in here can be *dynamic* or even *mixed*, exam
 
 **Note**
 
-* it doesn't matter if dynamic attributes have single or double quotes around, the logic is smart enough to understand
-  and ultimately sanitize those quotes around
-* it doesn't matter if the value is an integer, float, or something else, once stringified the output will use
-  `str(value)` and it will safely `escape` those values automatically
-* attributes **must** be a single value, when dynamic, so that the following would break:
+  * it doesn't matter if dynamic attributes have single or double quotes around, the logic is smart enough to understand and ultimately sanitize those quotes around, even if omitted
+  * it doesn't matter if the value is an integer, float, or something else, once stringified the output will use `str(value)` and it will safely `escape` those values automatically
+  * attributes **must** be a single value, when dynamic, so that the following would break:
 
 ```html
 <!-- ⚠️ this is not possible -->
@@ -252,6 +250,4 @@ own values.
 In these examples it is possible to note *self-closing tags*, such as `<div />` or others, but also a special
 *closing-tag* such as `</>` or `<//>` (these are the same).
 
-The `@` attribute for events is also not standard, but it helps explicitly distinguish between what could be an actual
-*JS* content for a real `onclick`, as opposite of being something "*magic*" that needs to be orchestrated @ the *Python*
-level.
+The `@` attribute for events is also not standard, but it helps explicitly distinguish between what could be an actual *JS* content for a real `onclick`, as opposite of being something "*magic*" that needs to be orchestrated @ the *Python* level.
