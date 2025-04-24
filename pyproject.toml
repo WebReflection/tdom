@@ -20,6 +20,9 @@ dev = [
     "black",
     "hatchling>=1.27.0",
     "pytest",
+    "sphinx",
+    "myst-parser",
+    "furo"
 ]
 
 [tool.uv.sources]

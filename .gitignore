@@ -1,2 +1,7 @@
 __pycache__/
 env/
+.venv
+docs/_build
+docs/_output
+.coverage
+dist
