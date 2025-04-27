@@ -18,13 +18,14 @@ First, clone Lysandros's CPython fork with the older implementation of t-strings
 
 ```shell
 $ cd /tmp
-$ https://github.com/lysnikolaou/cpython.git
-$ git checkout b07c4191720e318e25fcba2be93d6b7b0aedc668
+$ git clone https://github.com/lysnikolaou/cpython.git
+$ cd cpython
+$ git checkout tstrings
 $ ./configure
 $ ./make
 ```
 
-This will produce a file `python.exe` (yes, even on non-Windows) which you will use as your Python executable.
+On macOS/Windows, this will produce a file `python.exe` (on Linux, `python`) which you will use as your Python executable.
 
 ## tdom development setup
 
